@@ -1,0 +1,26 @@
+# 1. 映射到目标工艺库
+read_liberty -lib @AAAE_PPA_RESOURCES@/NangateOpenCellLibrary.lib
+
+# 2. 读取所有RTL文件与sdc文件（支持通配符）
+read_verilog @AAAE_FLOW_ROOT@/rtl/*.v
+read_verilog @AAAE_GENERATED_RTL@/*.v
+
+# 3. 设置顶层模块（必须与其中一个文件中的模块名匹配）
+hierarchy -check -top top
+
+
+# 5. 综合与优化
+synth -top top
+
+# 6. 工艺映射
+techmap -map +/techmap.v
+dfflibmap -liberty @AAAE_PPA_RESOURCES@/NangateOpenCellLibrary.lib
+abc -liberty @AAAE_PPA_RESOURCES@/NangateOpenCellLibrary.lib
+
+
+
+# 8. 输出网表
+write_verilog -noattr -selected ./synth.v
+
+# 9. 生成统计报告
+stat -liberty @AAAE_PPA_RESOURCES@/NangateOpenCellLibrary.lib

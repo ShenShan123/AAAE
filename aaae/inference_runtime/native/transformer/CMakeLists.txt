@@ -1,0 +1,56 @@
+cmake_minimum_required(VERSION 3.18)
+project(ort_approx LANGUAGES CXX CUDA)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CUDA_STANDARD 17)
+set(CMAKE_CUDA_STANDARD_REQUIRED ON)
+
+if(NOT DEFINED ONNXRUNTIME_ROOT)
+    message(FATAL_ERROR "Please specify ONNXRUNTIME_ROOT pointing to the ONNX Runtime install directory")
+endif()
+
+set(ORT_INCLUDE_DIR "${ONNXRUNTIME_ROOT}/include")
+set(ORT_LIB_DIR "${ONNXRUNTIME_ROOT}/lib")
+
+find_package(CUDAToolkit REQUIRED)
+
+if(NOT DEFINED CMAKE_CUDA_ARCHITECTURES OR CMAKE_CUDA_ARCHITECTURES STREQUAL "")
+    message(FATAL_ERROR "Set CMAKE_CUDA_ARCHITECTURES explicitly (for example, 80 for A100)")
+endif()
+
+set(EA2_SM80_S8_TILE_MODE "AUTO" CACHE STRING "Use the SM80 8x32x64 signed residual tile: AUTO, ON, or OFF")
+set_property(CACHE EA2_SM80_S8_TILE_MODE PROPERTY STRINGS AUTO ON OFF)
+string(TOUPPER "${EA2_SM80_S8_TILE_MODE}" EA2_SM80_S8_TILE_MODE_NORMALIZED)
+if(EA2_SM80_S8_TILE_MODE_NORMALIZED STREQUAL "ON")
+    set(EA2_ENABLE_SM80_S8_TILE TRUE)
+elseif(EA2_SM80_S8_TILE_MODE_NORMALIZED STREQUAL "OFF")
+    set(EA2_ENABLE_SM80_S8_TILE FALSE)
+elseif(EA2_SM80_S8_TILE_MODE_NORMALIZED STREQUAL "AUTO")
+    if(CMAKE_CUDA_ARCHITECTURES STREQUAL "80")
+        set(EA2_ENABLE_SM80_S8_TILE TRUE)
+    else()
+        set(EA2_ENABLE_SM80_S8_TILE FALSE)
+    endif()
+else()
+    message(FATAL_ERROR "EA2_SM80_S8_TILE_MODE must be AUTO, ON, or OFF")
+endif()
+
+add_library(ort_approx SHARED matmul_to_approx.cu)
+set_target_properties(ort_approx PROPERTIES CUDA_ARCHITECTURES "${CMAKE_CUDA_ARCHITECTURES}")
+target_include_directories(ort_approx PRIVATE ${ORT_INCLUDE_DIR})
+if(EA2_ENABLE_SM80_S8_TILE)
+    target_compile_definitions(ort_approx PRIVATE EA2_ENABLE_SM80_S8_TILE=1)
+endif()
+
+if(DEFINED GENERATED_INCLUDE_DIR)
+    target_include_directories(ort_approx PRIVATE ${GENERATED_INCLUDE_DIR})
+    target_compile_definitions(ort_approx PRIVATE EA2_HAS_GENERATED_MUL=1)
+endif()
+
+target_link_directories(ort_approx PRIVATE ${ORT_LIB_DIR})
+target_link_libraries(ort_approx PRIVATE onnxruntime CUDA::cudart)
+
+if(WIN32)
+    target_compile_definitions(ort_approx PRIVATE _CRT_SECURE_NO_WARNINGS)
+endif()
