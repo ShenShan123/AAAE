@@ -4,11 +4,6 @@
 This command does not retrain or reopen the original label bank. It verifies
 the frozen experiment artifacts, publishes the target-free causal-prefix block
 under the dataset, and packages the already-scored joint LightGBM models.
-
-This is a provenance-preserving migration utility, not a daily training entry
-point. Its source run and feature defaults intentionally remain under
-``experiment/``; current training and inference consume the promoted canonical
-dataset assets instead.
 """
 
 from __future__ import annotations

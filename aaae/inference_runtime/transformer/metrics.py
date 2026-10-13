@@ -1,5 +1,3 @@
-"""Core implementation extracted from end_to_end_prediction/transformer/dataset_builders/build_d_assign_truth_lut.py."""
-
 from __future__ import annotations
 
 

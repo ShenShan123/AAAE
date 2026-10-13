@@ -1,5 +1,3 @@
-"""Core implementation extracted from approx_error_model/model/dmult_neural/data.py."""
-
 from __future__ import annotations
 
 

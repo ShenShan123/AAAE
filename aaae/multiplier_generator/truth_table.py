@@ -1,5 +1,3 @@
-"""Core implementation extracted from approx_error_model/model/dmult_neural/train_dmult_truth_table.py."""
-
 from __future__ import annotations
 
 

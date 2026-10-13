@@ -1,5 +1,3 @@
-"""ImageNet label lookup extracted from ai_models/src/run_sanity_checks.py."""
-
 from __future__ import annotations
 
 

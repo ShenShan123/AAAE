@@ -5,8 +5,6 @@ from pathlib import Path
 
 from aaae.paths import AI_MODELS_ROOT, AI_MODELS_SRC, TRANSFORMER_ROOT
 
-# Keep the historical public constants, but source their values from the
-# migrated package's stable location contract instead of this file's parent.
 PROJECT_ROOT = TRANSFORMER_ROOT
 ONNX_ROOT = AI_MODELS_ROOT / "onnx_models"
 DATA_ROOT = AI_MODELS_ROOT / "dataset"

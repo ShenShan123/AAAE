@@ -1,5 +1,3 @@
-"""Core implementation extracted from ai_models/src/approx_injection/runtime_build.py."""
-
 from __future__ import annotations
 
 

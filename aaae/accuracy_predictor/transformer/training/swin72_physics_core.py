@@ -1,5 +1,3 @@
-"""Unchanged main-method helpers extracted from the original Swin training code."""
-
 from __future__ import annotations
 
 from typing import Any
