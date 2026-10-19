@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="440" height="140" viewBox="0 0 440 140" fill="none" role="img" aria-labelledby="title description">
-  <title id="title">AAAE</title>
-  <desc id="description">A minimal gray and blue AAAE wordmark with an approximation symbol.</desc>
-  <g stroke="#3563C4" stroke-width="6" stroke-linecap="round">
-    <path d="M44 65C54 53 64 53 74 61C84 69 94 69 104 57"/>
-    <path d="M44 87C54 75 64 75 74 83C84 91 94 91 104 79"/>
-  </g>
-  <text x="130" y="103" font-family="Arial, Helvetica, sans-serif" font-size="88" font-weight="700" letter-spacing="-2"><tspan fill="#59636E">AA</tspan><tspan fill="#3563C4">AE</tspan></text>
-</svg>

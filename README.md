@@ -1,9 +1,5 @@
 <p align="center">
-  <img src="docs/assets/aaae-logo.svg" width="320" alt="AAAE — accuracy-aware approximate computing"/>
-</p>
-
-<p align="center">
-  <strong>Application Accuracy-Aware Evaluation Framework<br/>for Approximate Computing</strong>
+  <img src="docs/assets/aaae-logo.png" width="800" alt="AAAE — Application Accuracy-Aware Evaluation for Approximate Computing"/>
 </p>
 
 <p align="center">
